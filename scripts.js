@@ -40,6 +40,13 @@ function paintToCanvas() {
 function takePhoto() {
   snap.currentTIme = 0;
   snap.play();
+
+  const data = canvas.toDataURL("image.png");
+  const link = document.createElement("a");
+  link.href = data;
+  link.setAttribute("download", "handsome");
+  link.innerHTML = `<img src="${data}" alt="Handsome Picture Subject"/>`;
+  strip.insertBefore(link, strip.firstChild);
 }
 
 getVideo();
