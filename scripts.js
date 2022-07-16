@@ -9,7 +9,15 @@ function getVideo() {
     .getUserMedia({ video: true, audio: false })
     .then((localMediaStream) => {
       console.log(localMediaStream);
-      video.src = window.URL.createObjectURL(localMediaStream);
+
+      //  DEPRECIATION :
+      //       The following has been depreceated by major browsers as of Chrome and Firefox.
+      //       video.src = window.URL.createObjectURL(localMediaStream);
+      //       Please refer to these:
+      //       Deprecated  - https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL
+      //       Newer Syntax - https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/srcObject
+
+      video.srcObject = localMediaStream;
       video.play();
     })
     .catch((err) => {
@@ -23,6 +31,17 @@ function paintToCanvas() {
   console.log(width, height);
   canvas.width = width;
   canvas.height = height;
+
+  return setInterval(() => {
+    ctx.drawImage(video, 0, 0, width, height);
+  }, 16);
+}
+
+function takePhoto() {
+  snap.currentTIme = 0;
+  snap.play();
 }
 
 getVideo();
+
+video.addEventListener("canplay", paintToCanvas);
